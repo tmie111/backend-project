@@ -4,9 +4,55 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <title>Create Post</title>
 </head>
-<body>
+<style>
+    body{
+        text-align: center;
+        background-color: gainsboro;
+    }
+    #review{
+        display: inline-block;
+        text-align: left;
+        position: relative;
+        background-color: white;
+        padding: 20px 60px 30px 60px;
+        border-radius: 10px;
+        margin: 50px auto 20px;
+    }
+    p{
+        font-size: 20px;
+        font-family: Arial, Helvetica, sans-serif;
+        padding: 1px;
+        text-align: center;
+    }
+    .col-sm-10{
+        width: 95%;
+    }
     
+    </style>
+<body>
+    <div id="review">
+        <p>Review</p>
+        <form id="review-form">
+            <div class="row mb-3">
+              <label for="inputTitle" class="col-sm-2 col-form-label">Title</label>
+              <div class="col-sm-10">
+                <input type="title" class="form-control" id="inputTitle" name="title">
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="inputReview" class="col-sm-2 col-form-label">Review</label>
+              <div class="col-sm-10">
+                <input type="review" class="form-control" id="inputReview" name="body">
+              </div>
+            </div>
+          <input type="hidden" name="brew_id" value="<%=brew_id%>"> 
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+        <script src="/posts.js"></script>
 </body>
 </html>

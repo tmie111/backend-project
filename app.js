@@ -40,6 +40,10 @@ app.get('/register', (req, res) => {
     res.render('register')
 })
 
+app.get('/posts/:brew_id', (req, res) => {
+    res.render('posts', {user_id: req.session.user.user_id, brew_id: req.params.brew_id});
+})
+
 app.get('/logout', (req, res) =>{
     req.session.destroy();
     res.redirect('/login')
@@ -60,6 +64,24 @@ app.get('/brew_list', (req, res) => {
     }).then(breweries => {
         console.log(breweries.length);
         res.json(breweries)
+    })
+})
+
+app.get('/user_post', (req, res) => {
+    if (!req.session.user) {
+        res.json({});
+        return;
+    }
+    let user = req.session.user;
+    console.log(user);
+   
+    models.user_post.findAll({
+        where: {
+            user_id: user.id
+        }
+    }).then(reviews => {
+        console.log(reviews);
+        res.json(reviews)
     })
 })
 
@@ -114,31 +136,22 @@ app.post('/login', (req, res) => {
 })
 
 app.post('/posts', (req, res) => {
-    let user_id = req.session.user.user_id;
+    let user_id = req.session.user.id;
     let brew_id = req.body.brew_id;
     let title = req.body.title;
-    let body = req.body.body
+    let body = req.body.review
 
     models.user_post.create({
         user_id: user_id,
         brew_id: brew_id,
         title: title,
         body: body
+    }).catch(err => { "error found: ", err })
+    .then((result) => {
+        console.log(result);
+        res.json({ success: true });
     })
 })
-//todo: figure out how to search database & validate emails and passwords match
-//once they do, set the req.session.user to the username
-//create dashboard where the breweries they add to 'visited' will render
-//create button that allows them to make a post about the brewery
-//figure out how to make all posts visible by all users
-
-// if(models.user.email == email && models.user.password == password){
-//     console.log('it worked');
-//     res.redirect('/main')
-// }else{
-//     return;
-// }
-// })
 
 app.post('/visited', (req, res) => {
     let { brew_id, visited } = req.body;
